@@ -12,25 +12,43 @@ from app.services.auth import auth_service
 
 router = APIRouter(prefix="/contacts", tags=["Contacts"])
 
+
 @router.post("/", response_model=ContactResponse, status_code=status.HTTP_201_CREATED)
 async def create_contact(
     payload: ContactCreate,
     db: AsyncSession = Depends(get_db),
     current_user=Depends(auth_service.get_current_user),
 ):
+    """
+    Створити новий контакт.
+
+    :param payload: Дані нового контакту.
+    :param db: Сесія бази даних.
+    :param current_user: Поточний авторизований користувач.
+    :return: Створений контакт.
+    """
     new_contact = Contact(**payload.dict(), user_id=current_user.id)
     db.add(new_contact)
     await db.commit()
     await db.refresh(new_contact)
     return new_contact
 
+
 @router.get("/", response_model=List[ContactResponse])
 async def read_contacts(
     db: AsyncSession = Depends(get_db),
     current_user=Depends(auth_service.get_current_user),
 ) -> List[ContactResponse]:
+    """
+    Отримати всі контакти поточного користувача.
+
+    :param db: Сесія бази даних.
+    :param current_user: Поточний авторизований користувач.
+    :return: Список контактів.
+    """
     result = await db.execute(select(Contact).where(Contact.user_id == current_user.id))
     return result.scalars().all()
+
 
 @router.get("/{contact_id}", response_model=ContactResponse)
 async def read_contact(
@@ -38,6 +56,14 @@ async def read_contact(
     db: AsyncSession = Depends(get_db),
     current_user=Depends(auth_service.get_current_user),
 ) -> ContactResponse:
+    """
+    Отримати один контакт за ID.
+
+    :param contact_id: Ідентифікатор контакту.
+    :param db: Сесія бази даних.
+    :param current_user: Поточний авторизований користувач.
+    :return: Контакт або помилка 404.
+    """
     result = await db.execute(
         select(Contact).where(Contact.id == contact_id, Contact.user_id == current_user.id)
     )
@@ -46,6 +72,7 @@ async def read_contact(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found")
     return contact
 
+
 @router.patch("/{contact_id}", response_model=ContactResponse)
 async def update_contact(
     contact_id: int,
@@ -53,6 +80,15 @@ async def update_contact(
     db: AsyncSession = Depends(get_db),
     current_user=Depends(auth_service.get_current_user),
 ) -> ContactResponse:
+    """
+    Оновити контакт.
+
+    :param contact_id: Ідентифікатор контакту.
+    :param payload: Дані для оновлення.
+    :param db: Сесія бази даних.
+    :param current_user: Поточний авторизований користувач.
+    :return: Оновлений контакт або помилка.
+    """
     result = await db.execute(
         select(Contact).where(Contact.id == contact_id, Contact.user_id == current_user.id)
     )
@@ -75,12 +111,21 @@ async def update_contact(
     await db.refresh(contact)
     return contact
 
+
 @router.delete("/{contact_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_contact(
     contact_id: int,
     db: AsyncSession = Depends(get_db),
     current_user=Depends(auth_service.get_current_user),
 ) -> None:
+    """
+    Видалити контакт за ID.
+
+    :param contact_id: Ідентифікатор контакту.
+    :param db: Сесія бази даних.
+    :param current_user: Поточний авторизований користувач.
+    :return: None або помилка.
+    """
     result = await db.execute(
         select(Contact).where(Contact.id == contact_id, Contact.user_id == current_user.id)
     )

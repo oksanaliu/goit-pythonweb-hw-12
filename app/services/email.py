@@ -1,3 +1,9 @@
+"""
+Модуль для надсилання електронних листів верифікації та скидання пароля.
+
+Використовує FastMail з бібліотеки fastapi-mail.
+"""
+
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from pydantic import EmailStr
 from app.conf.config import settings
@@ -15,17 +21,41 @@ conf = ConnectionConfig(
     VALIDATE_CERTS=False,
 )
 
+
 async def send_verification_email(email: EmailStr, token: str):
-    verification_link = f"http://localhost:8000/api/auth/verify?token={token}"
+    """
+    Надсилає лист для підтвердження електронної пошти.
+
+    :param email: Email користувача
+    :param token: Токен для підтвердження
+    """
+    link = f"http://localhost:8000/auth/verify?token={token}"
     message = MessageSchema(
         subject="Email verification",
         recipients=[email],
-        body=f"Hi!\n\nPlease click the link below to verify your email address:\n{verification_link}",
+        body=f"Будь ласка, підтвердіть email за посиланням:\n{link}",
         subtype="plain"
     )
-
+    fm = FastMail(conf)
     try:
-        fm = FastMail(conf)
         await fm.send_message(message)
-    except Exception as e:
-        print(f"[DEV] Could not send email, verification link: {verification_link}\nError: {e}")
+    except Exception:
+        print(f"[DEV] Verification link: {link}")
+
+
+async def send_reset_email(email: EmailStr, token: str):
+    """
+    Надсилає лист для скидання пароля.
+
+    :param email: Email користувача
+    :param token: Токен для скидання пароля
+    """
+    link = f"http://localhost:8000/auth/reset-password?token={token}"
+    message = MessageSchema(
+        subject="Password reset",
+        recipients=[email],
+        body=f"Щоб скинути пароль, перейдіть за посиланням:\n{link}",
+        subtype="plain"
+    )
+    fm = FastMail(conf)
+    await fm.send_message(message)

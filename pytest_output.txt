@@ -1,0 +1,1795 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.1, pluggy-1.6.0
+rootdir: /Users/oksanaluklan/goit-pythonweb-hw-12
+configfile: pytest.ini
+plugins: cov-6.2.1, anyio-3.7.1, asyncio-1.0.0
+asyncio: mode=auto, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 23 items
+
+tests/test_auth_routes.py EEEE                                           [ 17%]
+tests/test_basic_auth_contacts.py EEEE                                   [ 34%]
+tests/test_contacts.py EE                                                [ 43%]
+tests/test_contacts_routes.py EEEE                                       [ 60%]
+tests/test_get_contact_by_id.py EE                                       [ 69%]
+tests/test_integration_auth.py EE                                        [ 78%]
+tests/test_integration_contacts.py E                                     [ 82%]
+tests/test_read_contacts_list.py E                                       [ 86%]
+tests/test_repository_users.py EE                                        [ 95%]
+tests/test_update_contact.py E                                           [100%]
+
+==================================== ERRORS ====================================
+_________________ ERROR at setup of test_register_email_exists _________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+___________________ ERROR at setup of test_login_unverified ____________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+________________ ERROR at setup of test_login_invalid_password _________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+________________ ERROR at setup of test_reset_password_request _________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+___________ ERROR at setup of test_register_login_and_crud_contacts ____________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+_______________ ERROR at setup of test_login_with_wrong_password _______________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+_____________ ERROR at setup of test_access_contacts_without_auth ______________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+_________ ERROR at setup of test_create_contact_with_invalid_birthday __________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+__________________ ERROR at setup of test_read_contact_by_id ___________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+________________ ERROR at setup of test_read_contact_not_found _________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+__________________ ERROR at setup of test_empty_contacts_list __________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+________________ ERROR at setup of test_create_and_read_contact ________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+____________________ ERROR at setup of test_update_contact _____________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+____________________ ERROR at setup of test_delete_contact _____________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+__________________ ERROR at setup of test_read_contact_by_id ___________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+________________ ERROR at setup of test_read_contact_not_found _________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+__________________ ERROR at setup of test_register_and_login ___________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+_________________ ERROR at setup of test_users_me_unauthorized _________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+_____________________ ERROR at setup of test_contacts_crud _____________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+__________________ ERROR at setup of test_read_contacts_list ___________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+__________________ ERROR at setup of test_create_and_get_user __________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+_____________________ ERROR at setup of test_update_token ______________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+____________________ ERROR at setup of test_update_contact _____________________
+
+request = <SubRequest 'prepare_database' for <Coroutine test_register_email_exists>>
+kwargs = {}, func = <function prepare_database at 0x106537af0>
+event_loop_fixture_id = '_session_event_loop'
+setup = <function _wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup at 0x10667c790>
+setup_task = <Task finished name='Task-1' coro=<_wrap_asyncgen_fixture.<locals>._asyncgen_fixture_wrapper.<locals>.setup() done, de...ackages/pytest_asyncio/plugin.py:315> exception=AttributeError("'Session' object has no attribute '_run_ddl_visitor'")>
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(request: FixtureRequest, **kwargs: Any):
+        func = _perhaps_rebind_fixture_func(fixture, request.instance)
+        event_loop_fixture_id = _get_event_loop_fixture_id_for_async_fixture(
+            request, func
+        )
+        event_loop = request.getfixturevalue(event_loop_fixture_id)
+        kwargs.pop(event_loop_fixture_id, None)
+        gen_obj = func(**_add_kwargs(func, kwargs, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()  # type: ignore[union-attr]
+            return res
+    
+        context = contextvars.copy_context()
+        setup_task = _create_task_in_context(event_loop, setup(), context)
+>       result = event_loop.run_until_complete(setup_task)
+
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:642: in run_until_complete
+    return future.result()
+.venv/lib/python3.9/site-packages/pytest_asyncio/plugin.py:316: in setup
+    res = await gen_obj.__anext__()  # type: ignore[union-attr]
+tests/conftest.py:19: in prepare_database
+    await session.run_sync(User.metadata.create_all)
+.venv/lib/python3.9/site-packages/sqlalchemy/ext/asyncio/session.py:398: in run_sync
+    return await greenlet_spawn(
+.venv/lib/python3.9/site-packages/sqlalchemy/util/_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MetaData(), bind = <sqlalchemy.orm.session.Session object at 0x106680370>
+tables = None, checkfirst = True
+
+    def create_all(
+        self,
+        bind: _CreateDropBind,
+        tables: Optional[_typing_Sequence[Table]] = None,
+        checkfirst: bool = True,
+    ) -> None:
+        """Create all tables stored in this metadata.
+    
+        Conditional by default, will not attempt to recreate tables already
+        present in the target database.
+    
+        :param bind:
+          A :class:`.Connection` or :class:`.Engine` used to access the
+          database.
+    
+        :param tables:
+          Optional list of ``Table`` objects, which is a subset of the total
+          tables in the ``MetaData`` (others are ignored).
+    
+        :param checkfirst:
+          Defaults to True, don't issue CREATEs for tables already present
+          in the target database.
+    
+        """
+>       bind._run_ddl_visitor(
+            ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        )
+E       AttributeError: 'Session' object has no attribute '_run_ddl_visitor'
+
+.venv/lib/python3.9/site-packages/sqlalchemy/sql/schema.py:5924: AttributeError
+=============================== warnings summary ===============================
+.venv/lib/python3.9/site-packages/starlette/formparsers.py:12
+  /Users/oksanaluklan/goit-pythonweb-hw-12/.venv/lib/python3.9/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+.venv/lib/python3.9/site-packages/pydantic/_internal/_config.py:323
+.venv/lib/python3.9/site-packages/pydantic/_internal/_config.py:323
+.venv/lib/python3.9/site-packages/pydantic/_internal/_config.py:323
+  /Users/oksanaluklan/goit-pythonweb-hw-12/.venv/lib/python3.9/site-packages/pydantic/_internal/_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+.venv/lib/python3.9/site-packages/pydantic/_internal/_config.py:373
+  /Users/oksanaluklan/goit-pythonweb-hw-12/.venv/lib/python3.9/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+  * 'allow_population_by_field_name' has been renamed to 'validate_by_name'
+    warnings.warn(message, UserWarning)
+
+.venv/lib/python3.9/site-packages/pydantic/_internal/_config.py:373
+  /Users/oksanaluklan/goit-pythonweb-hw-12/.venv/lib/python3.9/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+  * 'orm_mode' has been renamed to 'from_attributes'
+    warnings.warn(message, UserWarning)
+
+.venv/lib/python3.9/site-packages/urllib3/__init__.py:35
+  /Users/oksanaluklan/goit-pythonweb-hw-12/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+app/main.py:29
+  /Users/oksanaluklan/goit-pythonweb-hw-12/app/main.py:29: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+.venv/lib/python3.9/site-packages/fastapi/applications.py:4495
+  /Users/oksanaluklan/goit-pythonweb-hw-12/.venv/lib/python3.9/site-packages/fastapi/applications.py:4495: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.9.6-final-0 ________________
+
+Name                                 Stmts   Miss  Cover   Missing
+------------------------------------------------------------------
+app/__init__.py                          0      0   100%
+app/conf/__init__.py                     0      0   100%
+app/conf/config.py                      24      0   100%
+app/database/__init__.py                 0      0   100%
+app/database/db.py                      16      6    62%   8, 24-25, 28-30
+app/main.py                             21      2    90%   31-32
+app/models/__init__.py                   0      0   100%
+app/models/models.py                    28      0   100%
+app/repository/__init__.py               0      0   100%
+app/repository/users.py                 39     26    33%   11-12, 15-26, 29-30, 33-36, 39-42, 45-49
+app/routes/__init__.py                   0      0   100%
+app/routes/auth.py                      62     38    39%   25-36, 43-51, 55-60, 68-72, 80-86
+app/routes/contacts.py                  51     31    39%   21-25, 32-33, 41-47, 56-76, 84-91
+app/routes/users.py                     23      7    70%   15, 23, 26-28, 40-41
+app/schemas/__init__.py                  0      0   100%
+app/schemas/schemas.py                  37      0   100%
+app/services/__init__.py                 0      0   100%
+app/services/auth.py                    54     30    44%   23, 26, 29-32, 35-38, 41-45, 52-78
+app/services/cloudinary_service.py      18     11    39%   16-43
+app/services/email.py                   17     11    35%   19-30, 33-41
+------------------------------------------------------------------
+TOTAL                                  390    162    58%
+=========================== short test summary info ============================
+ERROR tests/test_auth_routes.py::test_register_email_exists - AttributeError:...
+ERROR tests/test_auth_routes.py::test_login_unverified - AttributeError: 'Ses...
+ERROR tests/test_auth_routes.py::test_login_invalid_password - AttributeError...
+ERROR tests/test_auth_routes.py::test_reset_password_request - AttributeError...
+ERROR tests/test_basic_auth_contacts.py::test_register_login_and_crud_contacts
+ERROR tests/test_basic_auth_contacts.py::test_login_with_wrong_password - Att...
+ERROR tests/test_basic_auth_contacts.py::test_access_contacts_without_auth - ...
+ERROR tests/test_basic_auth_contacts.py::test_create_contact_with_invalid_birthday
+ERROR tests/test_contacts.py::test_read_contact_by_id - AttributeError: 'Sess...
+ERROR tests/test_contacts.py::test_read_contact_not_found - AttributeError: '...
+ERROR tests/test_contacts_routes.py::test_empty_contacts_list - AttributeErro...
+ERROR tests/test_contacts_routes.py::test_create_and_read_contact - Attribute...
+ERROR tests/test_contacts_routes.py::test_update_contact - AttributeError: 'S...
+ERROR tests/test_contacts_routes.py::test_delete_contact - AttributeError: 'S...
+ERROR tests/test_get_contact_by_id.py::test_read_contact_by_id - AttributeErr...
+ERROR tests/test_get_contact_by_id.py::test_read_contact_not_found - Attribut...
+ERROR tests/test_integration_auth.py::test_register_and_login - AttributeErro...
+ERROR tests/test_integration_auth.py::test_users_me_unauthorized - AttributeE...
+ERROR tests/test_integration_contacts.py::test_contacts_crud - AttributeError...
+ERROR tests/test_read_contacts_list.py::test_read_contacts_list - AttributeEr...
+ERROR tests/test_repository_users.py::test_create_and_get_user - AttributeErr...
+ERROR tests/test_repository_users.py::test_update_token - AttributeError: 'Se...
+ERROR tests/test_update_contact.py::test_update_contact - AttributeError: 'Se...
+======================== 9 warnings, 23 errors in 3.75s ========================

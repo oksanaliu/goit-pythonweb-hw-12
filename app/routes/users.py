@@ -1,58 +1,74 @@
-from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, Body, Request, status
+from fastapi import APIRouter, Depends, UploadFile, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from slowapi import Limiter
-from slowapi.util import get_remote_address
 
 from app.database.db import get_db
-from app.services.auth import auth_service
-from app.repository.users import (
-    get_user_by_email,
-    create_user,
-    update_token,
-    update_avatar as repo_update_avatar,
-    update_user_data,
-)
+from app.schemas.schemas import UserResponse, UserUpdate
+from app.repository.users import update_user_data, update_avatar
 from app.services.cloudinary_service import upload_avatar
-from app.schemas.schemas import UserResponse, UserUpdate, UserCreate
+from app.services.auth import auth_service
+from app.models.models import UserRole
 
-limiter = Limiter(key_func=get_remote_address)
 router = APIRouter(prefix="/users", tags=["Users"])
 
-@router.get("/me", response_model=UserResponse, summary="Отримати інформацію про поточного користувача")
-@limiter.limit("5/minute")
-async def me(
-    request: Request,
-    current_user=Depends(auth_service.get_current_user),
-) -> UserResponse:
+
+@router.get("/me", response_model=UserResponse)
+async def read_current_user(current_user=Depends(auth_service.get_current_user)):
+    """
+    Отримати дані поточного авторизованого користувача.
+
+    :param current_user: Об'єкт користувача, витягнутий з токена.
+    :return: Дані користувача.
+    """
     return current_user
 
-@router.post("/create", response_model=UserResponse, status_code=status.HTTP_201_CREATED, summary="Створити нового користувача")
-async def create_new_user(
-    payload: UserCreate = Body(...),
-    db: AsyncSession = Depends(get_db),
-) -> UserResponse:
-    existing = await get_user_by_email(payload.email, db)
-    if existing:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already exists")
-    hashed = auth_service.hash_password(payload.password)
-    user = await create_user(payload, hashed, db)
-    return user
 
-@router.patch("/me/avatar", response_model=UserResponse, summary="Оновити аватар користувача")
-async def patch_avatar(
-    file: UploadFile = File(...),
-    db: AsyncSession = Depends(get_db),
-    current_user=Depends(auth_service.get_current_user),
-) -> UserResponse:
-    url = await upload_avatar(file)
-    return await repo_update_avatar(current_user, url, db)
-
-@router.patch("/me", response_model=UserResponse, summary="Оновити дані користувача (без аватара)")
-async def patch_me(
+@router.patch("/me", response_model=UserResponse)
+async def update_me(
     body: UserUpdate,
     db: AsyncSession = Depends(get_db),
     current_user=Depends(auth_service.get_current_user),
-) -> UserResponse:
-    if body.avatar_url:
-        return await repo_update_avatar(current_user, body.avatar_url, db)
+):
+    """
+    Оновити профіль поточного користувача.
+
+    :param body: Нові дані для оновлення.
+    :param db: Сесія бази даних.
+    :param current_user: Поточний авторизований користувач.
+    :return: Оновлений об'єкт користувача.
+    """
     return await update_user_data(current_user, body, db)
+
+
+def get_current_admin(user=Depends(auth_service.get_current_user)):
+    """
+    Перевірити, чи є користувач адміністратором.
+
+    :param user: Поточний користувач.
+    :raises HTTPException: Якщо роль не ADMIN.
+    :return: Об'єкт користувача з роллю ADMIN.
+    """
+    if user.role != UserRole.ADMIN:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Тільки адміністратори можуть виконувати цю операцію")
+    return user
+
+
+@router.patch(
+    "/me/avatar",
+    response_model=UserResponse,
+    dependencies=[Depends(get_current_admin)]
+)
+async def change_avatar(
+    file: UploadFile,
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(auth_service.get_current_user),
+):
+    """
+    Оновити аватар поточного користувача (тільки для адміністратора).
+
+    :param file: Завантажений файл зображення.
+    :param db: Сесія бази даних.
+    :param current_user: Поточний авторизований користувач.
+    :return: Об'єкт користувача з оновленим URL аватару.
+    """
+    url = await upload_avatar(file)
+    return await update_avatar(current_user, url, db)
